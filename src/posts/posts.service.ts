@@ -7,7 +7,7 @@ export class PostsService {
 
     }
     public findAll(){
-        var user = this.userService.findOne();
+        var user = this.userService.findOneById('1234');
         return [
             {
                 user:user,
