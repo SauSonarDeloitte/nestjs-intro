@@ -1,0 +1,15 @@
+###
+GET http://localhost:3000/user
+
+###
+
+POST http://localhost:3000/user
+Accept: */*
+Content-Type: application/json
+
+{
+  "firstName": "Harry",
+  "lastName": "Potter",
+  "email": "harry.potter@hogwarts.com",
+  "password": "Harry*123"
+}
