@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Param, Query ,ValidationPipe, DefaultValuePipe, ParseIntPipe } from '@nestjs/common';
 import { UserDto } from './user.dto';
-import { UserService } from './user.service';
+import { UserService } from './providers/user.service';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
 @Controller('user')
 @ApiTags('User tag')
@@ -26,8 +26,8 @@ export class UserController {
     }
 
     @Post()
-    public createUsers(@Body(new ValidationPipe()) user:UserDto){
-        return this.userService.createUsers(user);
+    public createUsers(@Body() createUserDto:UserDto){
+        return this.userService.createUser(createUserDto);
     }
 
 }

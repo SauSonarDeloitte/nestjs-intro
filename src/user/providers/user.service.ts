@@ -1,6 +1,9 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { UserDto } from './user.dto';
-import { AuthService } from 'src/auth/auth.service';
+import { UserDto } from '../user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from '../user.entity';
+import { CreateUserDto } from '../dto/create-user.dto';
 
 /*
 * Class to connect user table and perfom buisness perations
@@ -8,28 +11,33 @@ import { AuthService } from 'src/auth/auth.service';
 @Injectable()
 export class UserService {
     constructor(
-        @Inject(forwardRef(()=>AuthService))
-        private readonly authService:AuthService,
+        @InjectRepository(User)
+        private userRepository:Repository<User>
     ){}
+    public async createUser(createUserDto:CreateUserDto){
+        // Check if user exists with same email
+        const existingUser = await this.userRepository.findOne({
+            where:{
+                email: createUserDto.email
+            }
+        })
+        // Handle exception
+
+        // Create a new user
+        let newUser = this.userRepository.create(createUserDto);
+        newUser = await this.userRepository.save(newUser);
+
+        return newUser; 
+    }
     public getUsers(
         id:number,
         limit:number,
         page:number,
     ){
-        this.authService.isAuth();
         console.log(`id:${id}`);
         console.log(`limit:${limit}`);
         console.log(`page:${page}`)
         return this.findAll();
-    }
-
-    /*
-    * Method to get all users from database
-    */
-    public createUsers(user:UserDto){
-        console.log(user);
-        console.log(typeof user);
-        return this.findOneById('1234');
     }
 
     /*

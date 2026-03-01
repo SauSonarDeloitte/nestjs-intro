@@ -1,4 +1,4 @@
-import { IsArray, IsEnum, IsISO8601, IsJSON, IsNotEmpty, IsOptional, IsString, IsUrl, Matches, MinLength, ValidateNested,} from "class-validator";
+import { IsArray, IsEnum, IsISO8601, IsJSON, IsNotEmpty, IsOptional, IsString, IsUrl, Matches, MaxLength, MinLength, ValidateNested,} from "class-validator";
 import { postStatus } from "../enums/postStatus.enums";
 import { postTypes } from "../enums/postType.enums";
 import { CreatePostMetaOptionsDto } from "./create-post-meta-options.dto";
@@ -28,6 +28,7 @@ export class CreatePostDto{
     @Matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/,{
         message:'A slug should be all small letters and only use only"-" and without spaces. For example "my-url"',
     })
+    @MaxLength(256)
     slug:string;
 
     @IsEnum(postStatus)
